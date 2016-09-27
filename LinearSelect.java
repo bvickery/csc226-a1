@@ -47,7 +47,7 @@ public class LinearSelect {
     	}
 
     }
-	
+	//prints the array from the left position to the right
 	private static void printArray(int[] array,int left, int right){
 		System.out.println("printing the array");
 		for(int i = left;i <= right;i++){
@@ -55,10 +55,15 @@ public class LinearSelect {
 		}
 	}
 	
-	private static int pickCleverPivot(int left, int right, int[] array){
+	private static int pickCleverPivot(int left, int right, int[] arrayMaster){
+		//making a copy of the array to be used in the pivot selection
+		int[] array = new int[arrayMaster.length-1];
+		for(int i = 0;i <array.length;i++){
+			array[i] = arrayMaster[i];
+		}
 		//base case
 		if(right - left < 5){
-			//printArray(array,left,right);
+
 			for(int i = left + 1;i < right;i++){
 				
 				int val = array[i];
@@ -75,7 +80,6 @@ public class LinearSelect {
 		}
 		
 		//recursion step
-		int[] tempMedianHolder = new int[(int)Math.ceil((right-left)/5)]; //this holds the index of all the medians from the for loop to be swapped after the for loop finishes
 		int count = left;
 		for(int i = left;i <= (int)Math.ceil((right-left)/5);i=i+5){
 			int sizeSubgroup = 1;
@@ -93,16 +97,9 @@ public class LinearSelect {
 				}
 			}
 			int median = (int)Math.ceil(sizeSubgroup/2);
-			//tempMedianHolder[count] = median;
-			//System.out.println("The median that is being swapped is: "+array[median]);
 			swap(array,median,count);
 			count++;
 		}
-		
-		//for(int i = 0;i < tempMedianHolder.length;i++){
-		////	swap(array,left+i,tempMedianHolder[i]);
-			//System.out.println("The median at position i: "+i+" is: "+tempMedianHolder[i]);
-		//}
 		
 		int newRight = left + (int)Math.ceil((right-left)/5);
 		return pickCleverPivot(left,newRight,array);
@@ -226,4 +223,3 @@ public class LinearSelect {
 		System.out.printf("Total Time (nanoseconds) for LinearSelect: %d\n",totalTimeLS);
 	}
 }
-
